@@ -1,0 +1,45 @@
+.container{
+    padding-top: 2rem;
+}
+
+#pp6-form-row-1{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2em;
+    margin-bottom: 2em;
+}
+
+#pp6-form-button{
+    margin-top: 3em;
+    padding: 1em;
+    font-weight: 550;
+}
+
+#message-query{
+    resize: none;
+    height: 10em;
+}
+
+@media(min-width: 576px){
+    .container{
+        margin: auto;
+    }
+    
+    #pp6-form-row-1{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2em;
+        margin-bottom: 2em;
+    }
+    
+    #pp6-form-button{
+        margin-top: 3em;
+        padding: 1em;
+        font-weight: var(--custom-bold);
+    }
+    
+    #message-query{
+        resize: none;
+        height: 10em;
+    }
+}
