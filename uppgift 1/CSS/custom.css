@@ -20,6 +20,18 @@
     height: 10em;
 }
 
+#reg-sex{
+    margin-top: 1em;
+}
+#reg-sex label{
+    margin: auto;
+    
+}
+
+.btn-group, label{
+    padding-right: 0.5em;
+}
+
 @media(min-width: 576px){
     .container{
         margin: auto;

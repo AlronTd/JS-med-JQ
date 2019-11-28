@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv-SE">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
@@ -10,6 +11,7 @@
     <script src="https://kit.fontawesome.com/f545439853.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/custom.css">
 </head>
+
 <body>
     <div class="container">
         <!-- start: form -->
@@ -18,14 +20,46 @@
                 <input id="name-query" type="text" placeholder="Ange Ditt Namn" class="form-control">
                 <input id="email-query" type="email" placeholder="Ange Epostadress" class="form-control">
                 <select id="reg-select-country" class="form-control">
-                    <option value="" selected="selected" disabled >Välj ditt land</option>git
+                    <option id="country-none" value="" selected="selected" disabled>Ange ditt land</option>
+                    <option value="se">Sverige</option>
+                    <option value="no">Norge</option>
+                    <option value="uk">Storbrittannien</option>
+                    <option value="dk">Danmark</option>
+                    <option value="lt">Litauen</option>
+                    <option value="lv">Lettland</option>
+                    <option value="ee">Estland</option>
+                    <option value="fi">Finland</option>
+                    <option value="us">USA</option>
                 </select>
             </div>
 
-            <textarea name="message-query" id="message-query" placeholder="Skriv din hemliga fråga här"
+            <textarea name="message-query" id="message-query" placeholder="Skriv din hemliga fråga här."
                 class="form-control"></textarea>
+            <input type="password" id="reg-secret-answer" placeholder="Skriv svaret på din hemliga fråga här"
+                class="form-control">
 
-            <button id="pp6-form-button" type="reset" class="btn btn-dark">skicka meddelande</button>
+            <div class="form-group" id="reg-sex">
+
+                <label for="reg-sex">Kön:</label>
+                <div class="btn-group form-check">
+                    <label for="reg-sex-u">Vill ej ange</label>
+                    <input type="radio" name="sex" id="reg-sex-u" value="u">
+                </div>
+                <div class="btn-group form-check">
+                    <label for="reg-sex-f">Kvinna</label>
+                    <input type="radio" name="sex" id="reg-sex-f" value="f">
+                </div>
+                <div class="btn-group form-check">
+                    <label for="reg-sex-m">Man</label>
+                    <input type="radio" name="sex" id="reg-sex-m" value="m">
+                </div>
+                <div class="btn-group form-check">
+                    <label for="reg-sex-c">Det är komplicerat</label>
+                    <input type="radio" name="sex" id="reg-sex-c" value="c">
+                </div>
+            </div>
+
+            <button id="pp6-form-button" type="submit" class="btn btn-dark">Slutför registrering</button>
         </form>
         <!-- end: form -->
     </div>
@@ -35,4 +69,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
