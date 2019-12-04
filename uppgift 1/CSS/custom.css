@@ -1,3 +1,4 @@
+/* presets since last script (?) */
 .container{
     padding-top: 2rem;
 }
@@ -20,6 +21,7 @@
     height: 10em;
 }
 
+/* new stuff (!) */
 #reg-sex{
     margin-top: 1em;
 }
@@ -30,6 +32,22 @@
 
 .btn-group, label{
     padding-right: 0.5em;
+}
+
+#reg-eula-label, #reg-eula{
+    display: inline;
+}
+
+#reg-password2{
+    margin: 2em auto;
+}
+
+#pp6-form{
+    margin-top: 2em;
+}
+
+#pp6-form-button{
+    
 }
 
 @media(min-width: 576px){
