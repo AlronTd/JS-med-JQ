@@ -51,6 +51,7 @@
 }
 
 @media(min-width: 576px){
+    /* I don't know what's old/new here */
     .container{
         margin: auto;
     }

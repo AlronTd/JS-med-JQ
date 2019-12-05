@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sv-SE">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/f545439853.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Logga in</h1>
+        
+        <form method="POST" id="pp6-form">
+            
+            <div class="form-row">
+                
+                <input id="login-email" type="email" placeholder="Ange mailadress" class="form-control">
+                <input id="login-passwd" type="password" placeholder="Ange lösenord" class="form-control">
+                <select id="login-select-country" class="form-control">
+                    <option id="country-none" value="" selected="selected" disabled>Ange hemland</option>
+                    <option value="se">Sverige</option>
+                    <option value="no">Norge</option>
+                    <option value="uk">Storbrittannien</option>
+                    <option value="dk">Danmark</option>
+                    <option value="lt">Litauen</option>
+                    <option value="lv">Lettland</option>
+                    <option value="ee">Estland</option>
+                    <option value="fi">Finland</option>
+                    <option value="us">USA</option>
+                </select>
+                <button id="pp6-form-button" type="submit" class="btn btn-dark">Logga in</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

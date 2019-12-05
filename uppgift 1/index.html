@@ -14,13 +14,14 @@
 
 <body>
     <div class="container">
-        <h1>ge oss alla dina hemligheter!</h1>
+        <h1>Registrera dig</h1>
+        <p>Alla dessa fält behöver fyllas med giltig information för att vi ska kunna skapa din profil. </p>
         <!-- start: form -->
         <form method="POST" id="pp6-form">
             <!-- start: row 1 -->
             <div class="form-row">
-                <input id="name-query" type="text" placeholder="Ange användarnamn" class="form-control">
-                <input id="email-query" type="password" placeholder="Ange lösenord" class="form-control">
+                <input id="reg-email" type="text" placeholder="Ange användarnamn" class="form-control">
+                <input id="reg-passwd" type="password" placeholder="Ange lösenord" class="form-control">
                 <select id="reg-select-country" class="form-control">
                     <option id="country-none" value="" selected="selected" disabled>Ange hemland</option>
                     <option value="se">Sverige</option>
@@ -37,9 +38,10 @@
             <!-- end: row 1 -->
             
             <!-- start: row 2 -->
-            <textarea name="message-query" id="message-query" placeholder="Skriv din hemliga fråga här."
+            <textarea name="message-query" id="message-query" placeholder="Skriv din hemliga fråga här"
                 class="form-control"></textarea>
             <!-- end: row 2 -->
+            
             <!-- start: row 3 -->
             <input type="password" id="reg-secret-answer" placeholder="Skriv svaret på din hemliga fråga här"
                 class="form-control">
@@ -51,7 +53,7 @@
                 <label for="reg-sex">Kön:</label>
                 <div class="btn-group form-check">
                     <label for="reg-sex-u">Vill ej ange</label>
-                    <input type="radio" name="sex" id="reg-sex-u" value="u">
+                    <input type="radio" name="sex" id="reg-sex-u" value="u" checked>
                 </div>
                 <div class="btn-group form-check">
                     <label for="reg-sex-f">Kvinna</label>
@@ -77,8 +79,11 @@
 
             <!-- start: row n-1 -->
             <input id="reg-password2" type="password" placeholder="upprepa lösenord" class="form-control d-block">
+            <!-- end: row n-1 -->
             
+            <!-- start: last row -->
             <button id="pp6-form-button" type="submit" class="btn btn-dark">Slutför registrering</button>
+            <!-- end: last row -->
         </form>
         <!-- end: form -->
     </div>
