@@ -20,9 +20,9 @@
         <form method="POST" id="pp6-form">
             <!-- start: row 1 -->
             <div class="form-row">
-                <input id="reg-email" type="text" placeholder="Ange användarnamn" class="form-control">
-                <input id="reg-passwd" type="password" placeholder="Ange lösenord" class="form-control">
-                <select id="reg-select-country" class="form-control">
+                <input id="reg-uname" type="text" placeholder="Ange användarnamn" class="form-control uname">
+                <input id="reg-passwd" type="password" placeholder="Ange lösenord" class="form-control passwd">
+                <select id="reg-select-country" class="form-control select-country">
                     <option id="country-none" value="" selected="selected" disabled>Ange hemland</option>
                     <option value="se">Sverige</option>
                     <option value="no">Norge</option>
@@ -44,7 +44,7 @@
             
             <!-- start: row 3 -->
             <input type="password" id="reg-secret-answer" placeholder="Skriv svaret på din hemliga fråga här"
-                class="form-control">
+                class="form-control passwd">
             <!-- end: row 3 -->
 
             <!-- start: row 4 -->
@@ -53,19 +53,19 @@
                 <label for="reg-sex">Kön:</label>
                 <div class="btn-group form-check">
                     <label for="reg-sex-u">Vill ej ange</label>
-                    <input type="radio" name="sex" id="reg-sex-u" value="u" checked>
+                    <input type="radio" name="sex" id="reg-sex-u" value="u" checked class="no-validate">
                 </div>
                 <div class="btn-group form-check">
                     <label for="reg-sex-f">Kvinna</label>
-                    <input type="radio" name="sex" id="reg-sex-f" value="f">
+                    <input type="radio" name="sex" id="reg-sex-f" value="f" class="no-validate">
                 </div>
                 <div class="btn-group form-check">
                     <label for="reg-sex-m">Man</label>
-                    <input type="radio" name="sex" id="reg-sex-m" value="m">
+                    <input type="radio" name="sex" id="reg-sex-m" value="m" class="no-validate">
                 </div>
                 <div class="btn-group form-check">
                     <label for="reg-sex-c">Det är komplicerat</label>
-                    <input type="radio" name="sex" id="reg-sex-c" value="c">
+                    <input type="radio" name="sex" id="reg-sex-c" value="c" class="no-validate">
                 </div>
             </div>
             <!-- end: row 4 -->
@@ -91,7 +91,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
+    <script src="JS/script.js"></script>
 </body>
 
 </html>
