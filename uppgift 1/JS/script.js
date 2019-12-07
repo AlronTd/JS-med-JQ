@@ -18,6 +18,17 @@ $(function () {
         }
         
         function checkMatch(e, elem, suffix){
+            match = $(`#${elem.id}${suffix}`)
+            if(!(match.length !== 1)){
+                e.preventDefault()
+                setInvalid(elem)
+            }else{
+                setValid(elem, true)
+                setValid(match[0], true)
+            }
+        }
+        
+        function validateEmail(e, elem){
             
         }
         
@@ -79,15 +90,20 @@ $(function () {
                             this.limitCharInput = (e) => {}
                             return;
                         case 'word': 
-                            this.badChars.add(/^(?!.*([0-9]|[\u0041-\u005A]|[\u0061-\u007A]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u00FF]|\s))/)
+                            this.badChars.add(/^(?!.*([0-9]|[\u0041-\u005A]|[\u0061-\u007A]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u00FF]))/)
                             this.toValidate.push((e) => validateWord(e, this.element, this.badChars))
                             break;
                         case 'passwd':
-                            this.badChars.add(/^(?!.*([0-9]|[\u003F-\u005A]|[\u0061-\u007A]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u00FF]|\u0021|[\u0023-\u0026]|\u005F|\s))/)
+                            this.badChars.add(/^(?!.*([0-9]|[\u003F-\u005A]|[\u0061-\u007A]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u00FF]|\u0021|[\u0023-\u0026]|\u005F))/)
                             this.toValidate.push((e) => validatePasswd(e, this.element, this.badChars))
                             break;
                         case 'email':
+                            this.badChars.add(/^(?!.*([0-9]|[a-z]|\.|@))/)
                             this.toValidate.push((e) => validateEmail(e, this.element))
+                            break;
+                        case 'paragraph':
+                            this.badChars.add(/^(?!.*([0-9]|[\u0041-\u005A]|[\u0061-\u007A]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u00FF]|\.|\s|:|\\))/)
+                            this.toValidate.push((e) => validateWord(e, this.element, this.badChars))
                             break;
                         case 'match':
                             this.toValidate.push((e) => checkMatch(e, this.element, matchSuffix))
@@ -104,11 +120,10 @@ $(function () {
                         func(e)
                     }
                 }
-
             }
         }
 
-
+        console.log($('form input, form textarea'))
         for (let elem of $('form input, form textarea')) {
             console.log(elem)
             console.log(elem.classList)
