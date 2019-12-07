@@ -20,8 +20,8 @@
         <form method="POST" action="login.html" id="pp6-form">
             <!-- start: row 1 -->
             <div class="form-row">
-                <input id="reg-uname" type="text" placeholder="Ange användarnamn" class="form-control word">
-                <input id="reg-passwd" type="password" placeholder="Ange lösenord" class="form-control passwd">
+                <input id="reg-uname" type="text" placeholder="Ange användarnamn" class="form-control word" maxlength="30">
+                <input id="reg-passwd" type="password" placeholder="Ange lösenord" class="form-control passwd" maxlength="30">
                 <select id="reg-select-country" class="form-control select-country">
                     <option id="country-none" value="" selected="selected" disabled>Ange hemland</option>
                     <option value="se">Sverige</option>
@@ -39,14 +39,14 @@
 
             <!-- start: row 2 -->
             <textarea name="message-query" id="message-query" placeholder="Skriv din hemliga fråga här"
-                class="form-control"></textarea>
+                class="form-control" maxlength="798"></textarea>
             <!-- end: row 2 -->
 
             <!-- start: row 3 -->
             <input type="password" id="reg-secret-answer" placeholder="Skriv svaret på din hemliga fråga här"
-                class="form-control word match">
-            <input type="password" id="reg-secret-answer2" placeholder="Skriv svaret på din hemliga fråga här"
-                class="form-control word">
+                class="form-control word match" maxlength="30">
+            <input type="password" id="reg-secret-answer2" placeholder="Upprepa svaret på din hemliga fråga"
+                class="form-control word" maxlength="30">
             <!-- end: row 3 -->
 
             <!-- start: row 4 -->
