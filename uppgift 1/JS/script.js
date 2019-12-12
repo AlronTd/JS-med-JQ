@@ -2,15 +2,40 @@ $(function () {
     async function main() {
         'use strict';
 
+        
+        function validateCheckBox(name) {
+            let all = $(`input[name=${name}`)
+    
+            if(all.is(':checked')) {
+                all.removeClass('is-invalid')
+    
+                for(let radio of all) {
+                    if(radio.checked) {
+                        $('#' + radio.id).addClass('is-valid')
+                    }
+                    else {
+                        $('#' + radio.id).removeClass('is-valid')
+                    }
+                }
+            }
+            else {
+                all.addClass('is-invalid')
+                return true
+            }
+        }
+        
+        
         const matchSuffix = '2'
 
 
         function setInvalid(elem) {
+            console.log(`setting invalid: ${elem.id}`)
             elem.classList.remove('is-valid')
             elem.classList.add('is-invalid')
         }
 
         function setValid(elem, willVisualise) {
+            console.log(`setting valid: ${elem.id}`)
             elem.classList.remove('is-invalid')
             if (willVisualise) {
                 elem.classList.add('is-valid')
@@ -19,43 +44,97 @@ $(function () {
 
         function checkMatch(e, elem, suffix) {
 
-            match = $(`#${elem.id}${suffix}`)
+            let match = $(`#${elem.id}${suffix}`)
 
-            if (!(match.length !== 1)) {
-
+            if (!(match.length !== 1 || match.value !== elem.value)) {
+                console.log(`found no match for ${elem.id}`)
                 setInvalid(elem)
             } else {
-
-                setValid(elem, true)
-                setValid(match[0], true)
+                if (elem.value) {
+                    setValid(elem, true)
+                    setValid(match[0], true)
+                }
+                console.log(`found match for ${elem.id}`)
+                
             }
         }
 
         function preventBadInput(e, badChars) {
-            
+
             while (badChars.testAny(e.target.value)) {
-                
+
                 for (let exp of badChars.collection) {
-                    
+
                     e.target.value = e.target.value.replace(exp, '')
                     e.target.textContent = e.target.textContent.replace(exp, '')
                     e.target.innerHTML = e.target.innerHTML.replace(exp, '')
                 }
+                console.log(`preventing ${e.key}`)
+
             }
         }
 
         function validateEmail(e, elem) {
-            if(!(/([a-z]|[0-9])+@([a-z]|[0-9])+\.([a-z]|[0-9])+/.test(elem.value))){
+            if (!(/^(?:[a-z]|[0-9]|\.)+@(?:[a-z]|[0-9]|\.)+\.(?:[a-z]|[0-9])+$/.test(elem.value))) {
+                console.log(`email ${elem.id} invalid`)
                 setInvalid(elem)
-            }else{
+
+            } else {
+                console.log(`email ${elem.id} valid`)
+
+                setValid(elem, false)
+
+            }
+        }
+
+        function validateWord(e, elem) {
+            console.log(`validating ${elem.id}`)
+
+            const hasWhitespace = /\s/.test(elem.value)
+            const startsWithLetter = /^(?:[a-z]|[A-Z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F7-\u00F7]).*/.test(elem.value)
+            if (hasWhitespace || !(startsWithLetter)) {
+                console.log(`word ${elem.id} invalid`)
+
+                setInvalid(elem)
+
+            } else {
+                console.log(`word ${elem.id} valid`)
+
+                setValid(elem, false)
+
+            }
+        }
+
+        function validateParagraph(e, elem) {
+            if (!(/^.+$/.test(elem.value))) {
+                console.log(`paragraph ${elem.id} invalid`)
+
+                setInvalid(elem)
+
+            } else {
+                console.log(`paragraph ${elem.id} valid`)
+
                 setValid(elem, false)
             }
         }
-        
-        function validateWord(e, elem) {
-            
-        }
 
+        function validatePasswd(e, elem) {
+            console.log(`validating ${elem.id}`)
+
+            const containsNumber = /\d/.test(elem.value)
+            const containsLetter = /[a-z]|[A-Z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F7-\u00F7]/.test(elem.value)
+            validateWord(e, elem)
+            if (elem.value.length < 5 || !(containsNumber && containsLetter)) {
+                console.log(`passwd ${elem.id} invalid`)
+
+                setInvalid(elem)
+
+            } else {
+                console.log(`passwd ${elem.id} valid`)
+
+                setValid(elem, false)
+            }
+        }
 
         // represents a group of regular expressions
         class regExpCollection {
@@ -115,19 +194,19 @@ $(function () {
                             return;
                         case 'word':
                             this.badChars.add(/[\.\,\;\|\:\*\'\^\¨\~\%\¤\&\#\"\`\´\!\?\@\£\${\[\]\}\\\+\-\_\/\=\(\)\€\s]/)
-                            this.toValidate.push((e) => validateWord(e, this.element, this.badChars))
+                            this.toValidate.push((e) => validateWord(e, this.element))
                             break;
                         case 'passwd':
-                            this.badChars.add(/[\.\,\;\|\:\'\^\¨\~\¤\"\`\´{\[\]\}\/\=\(\)\s]/)
-                            this.toValidate.push((e) => validatePasswd(e, this.element, this.badChars))
+                            this.badChars.add(/[\.\,\;\|\:\'\^\¨\~\"\`\´{\[\]\}\/\=\(\)\s]/)
+                            this.toValidate.push((e) => validatePasswd(e, this.element))
                             break;
                         case 'email':
                             this.badChars.add(/[\,\;\|\:\*\'\^\¨\~\%\¤\&\#\"\`\´\!\?\£\${\[\]\}\\\+\-\_\/\=\(\)\€\s]/)
                             this.toValidate.push((e) => validateEmail(e, this.element))
                             break;
                         case 'paragraph':
-                            this.badChars.add(/[\¨\¤{\[\]\}\\\_]/)
-                            this.toValidate.push((e) => validateWord(e, this.element, this.badChars))
+                            this.badChars.add(/[\¨\¤{\[\]\}\\\_\n]/)
+                            this.toValidate.push((e) => validateParagraph(e, this.element))
                             break;
                         case 'match':
                             this.toValidate.push((e) => checkMatch(e, this.element, matchSuffix))
@@ -140,41 +219,48 @@ $(function () {
                 this.limitCharInput = (e) => preventBadInput(e, this.badChars)
 
                 this.validate = (e) => {
+                    console.log(`running validate on ${this.element}`)
+
                     for (let func of this.toValidate) {
                         func(e)
                     }
                 }
+
+                elem.addEventListener('click', this.limitCharInput)
+                elem.addEventListener('blur', this.limitCharInput)
+                elem.addEventListener('keyup', this.limitCharInput)
+                console.log(`created validator for ${elem.id}`)
             }
         }
 
-        console.log($('form input, form textarea'))
-
         const validators = []
 
-        for (let elem of $('form input, form textarea')) {
+        for (let elem of $('form input, form textarea, form select')) {
             let eventHandler = new validator(elem)
             validators.push(eventHandler)
-            elem.addEventListener('keyup', eventHandler.limitCharInput)
-            elem.addEventListener('blur', eventHandler.limitCharInput)
         }
-
+        
         $('#pp6-form').on('submit', (e) => {
             e.preventDefault()
 
             let valid = true;
 
-            for (validator in validators) {
-                validator.validate(e)
-                if (validator.elem.classList.includes('is-invalid')) {
+            for (let v of validators) {
+                v.validate(e)
+                if (v.element.classList.contains('is-invalid')) {
                     valid = false
                 }
             }
 
+            validateCheckBox('reg-eula')
+            
             if (valid) {
-                window.location.href = window.location.pathname.replace('index', 'login') //TODO: bugfix
+                console.log(`redirecting...`)
+
+                window.location.href = window.location.href.replace('index', 'login') //TODO: bugfix
             }
         })
-
+        
     }
     main();
 });
