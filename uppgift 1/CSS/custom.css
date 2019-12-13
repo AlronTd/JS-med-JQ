@@ -1,6 +1,6 @@
 /* presets since last script (?) */
 .container{
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 #pp6-form-row-1{
@@ -44,6 +44,28 @@
 
 #pp6-form{
     margin-top: 2em;
+}
+
+.message-to-user{
+    margin: auto;
+}
+
+.message-container{
+    display: flex;
+    height: 100vh;
+}
+
+#reg-check-error{
+    display: none;
+    margin: 2em;
+}
+
+.d-block{
+    display: block !important;
+}
+
+footer{
+    margin: 2em;
 }
 
 @media(min-width: 576px){

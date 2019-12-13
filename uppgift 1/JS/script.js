@@ -8,19 +8,17 @@ $(function () {
     
             if(all.is(':checked')) {
                 all.removeClass('is-invalid')
-    
+                $('#reg-check-error').css('display', 'none')
+                
                 for(let radio of all) {
                     if(radio.checked) {
-                        $('#' + radio.id).addClass('is-valid')
-                    }
-                    else {
-                        $('#' + radio.id).removeClass('is-valid')
+                        setValid(radio, true)
                     }
                 }
             }
             else {
                 all.addClass('is-invalid')
-                return true
+                $('#reg-check-error').addClass('d-block')
             }
         }
         
@@ -219,7 +217,7 @@ $(function () {
                 this.limitCharInput = (e) => preventBadInput(e, this.badChars)
 
                 this.validate = (e) => {
-                    console.log(`running validate on ${this.element}`)
+                    console.log(`running validate on ${this.element.id}`)
 
                     for (let func of this.toValidate) {
                         func(e)
@@ -240,11 +238,18 @@ $(function () {
             validators.push(eventHandler)
         }
         
+        console.log(window.location.href.replace('index', 'register-success'))
+        console.log(window.location.href.replace('login', 'login-success'))
+        
         $('#pp6-form').on('submit', (e) => {
             e.preventDefault()
 
             let valid = true;
-
+            
+            $('#reg-check-error').removeClass('d-block')
+            validateCheckBox('reg-eula')
+            validateCheckBox('sex')
+            
             for (let v of validators) {
                 v.validate(e)
                 if (v.element.classList.contains('is-invalid')) {
@@ -252,12 +257,18 @@ $(function () {
                 }
             }
 
-            validateCheckBox('reg-eula')
+            
             
             if (valid) {
                 console.log(`redirecting...`)
+                
+                if(window.location.href.includes('index')){
+                    window.location.href = window.location.href.replace('index', 'register-success')
+                }else if(window.location.href.includes('login')){
+                    window.location.href = window.location.href.replace('login', 'login-success')
+                }
+                
 
-                window.location.href = window.location.href.replace('index', 'login') //TODO: bugfix
             }
         })
         

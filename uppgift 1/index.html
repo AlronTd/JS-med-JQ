@@ -55,7 +55,7 @@
                 <label for="reg-sex">Kön:</label>
                 <div class="btn-group form-check">
                     <label for="reg-sex-u">Vill ej ange</label>
-                    <input type="radio" name="sex" id="reg-sex-u" value="u" checked class="no-validate">
+                    <input type="radio" name="sex" id="reg-sex-u" value="u" class="no-validate">
                 </div>
                 <div class="btn-group form-check">
                     <label for="reg-sex-f">Kvinna</label>
@@ -71,12 +71,16 @@
                 </div>
             </div>
             <!-- end: row 4 -->
-
+            
+            <!-- start: error message -->
+            <div id="reg-check-error"> Vänligen försäkra att du har angett en könsidentitet ovan och accepterar vårat användaravtal.</div>
+            <!-- end: error message -->
+            
             <!-- start: row 5 -->
             <div>
                 <label name="reg-eula" for="reg-eula" id="reg-eula-label">Jag har läst, förstått och accepterar <a
                         href="eula.html">användaravtalet</a> för denna sida.</label>
-                <input type="checkbox" name="reg-eula" id="reg-eula" required>
+                <input type="checkbox" name="reg-eula" id="reg-eula" >
             </div>
             <!-- end: row 5 -->
 
@@ -91,6 +95,8 @@
         <!-- end: form -->
     </div>
 
+    <footer></footer>
+    
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
