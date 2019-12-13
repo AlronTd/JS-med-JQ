@@ -1,0 +1,16 @@
+https://inlupp-fa.azurewebsites.net/api/distribution
+https://inlupp-fa.azurewebsites.net/api/downloads
+https://inlupp-fa.azurewebsites.net/api/messages
+https://inlupp-fa.azurewebsites.net/api/notifications
+https://inlupp-fa.azurewebsites.net/api/open-invoices
+https://inlupp-fa.azurewebsites.net/api/sales-report
+https://inlupp-fa.azurewebsites.net/api/tickets
+https://inlupp-fa.azurewebsites.net/api/total-growth
+https://inlupp-fa.azurewebsites.net/api/total-orders
+https://inlupp-fa.azurewebsites.net/api/total-projects
+https://inlupp-fa.azurewebsites.net/api/total-purchases
+https://inlupp-fa.azurewebsites.net/api/total-sales
+https://inlupp-fa.azurewebsites.net/api/total-sales-chart
+https://inlupp-fa.azurewebsites.net/api/total-users
+https://inlupp-fa.azurewebsites.net/api/updates
+https://inlupp-fa.azurewebsites.net/api/users
