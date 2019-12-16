@@ -1,191 +1,228 @@
-(function($) {
+(function ($) {
   'use strict';
-  $(function() {
+  $(function () {
     if ($("#total-sales-chart").length) {
-      var areaData = {
-        labels: ["Mon","","Tue","", "Wed","", "Thu","", "Fri","", "Sat"],
-        datasets: [
-          {
-            data: [260000, 200000, 290000, 230000, 200000, 180000, 180000, 360000, 240000, 280000, 180000],
-            backgroundColor: [
-              'rgba(61, 165, 244, .0)'
-            ],
-            borderColor: [
-              'rgb(61, 165, 244)'
-            ],
-            borderWidth: 2,
-            fill: 'origin',
-            label: "services"
-          },
-          {
-            data: [160000, 120000, 175000, 290000, 380000, 210000, 320000, 150000, 310000, 180000, 160000],
-            backgroundColor: [
-              'rgba(241, 83, 110, .0)'
-            ],
-            borderColor: [
-              'rgb(241, 83, 110)'
-            ],
-            borderWidth: 2,
-            fill: 'origin',
-            label: "services"
+      fetch('https://inlupp-fa.azurewebsites.net/api/total-sales-chart').then((res) => res.json()).then((res) => {
+
+        for (let property in res) {
+          $('#' + property).html(res[property])
+        }
+
+        let data = []
+        for (let i = 0; i < res.datasets.length; i = i + 1) {
+          if (i % 2 === 0) {
+            data.push({
+              data: res.datasets[i].data,
+              backgroundColor: [
+                'rgba(61, 165, 244, .0)'
+              ],
+              borderColor: [
+                'rgb(61, 165, 244)'
+              ],
+              borderWidth: 2,
+              fill: 'origin',
+              label: "services"
+            })
+          } else {
+            data.push({
+              data: res.datasets[i].data,
+              backgroundColor: [
+                'rgba(241, 83, 110, .0)'
+              ],
+              borderColor: [
+                'rgb(241, 83, 110)'
+              ],
+              borderWidth: 2,
+              fill: 'origin',
+              label: "services"
+            })
           }
-        ]
-      };
-      var areaOptions = {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          filler: {
-            propagate: false
-          }
-        },
-        scales: {
-          xAxes: [{
-            display: true,
-            ticks: {
-              display: true,
-              padding: 20,
-              fontColor:"#000",
-              fontSize: 14
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-              color: 'transparent',
-              zeroLineColor: '#eeeeee'
+        }
+
+        var areaData = {
+          labels: res.labels,
+          datasets: data
+        };
+        var areaOptions = {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            filler: {
+              propagate: false
             }
-          }],
-          yAxes: [{
-            display: true,
-            ticks: {
+          },
+          scales: {
+            xAxes: [{
               display: true,
-              autoSkip: false,
-              maxRotation: 0,
-              stepSize: 100,
-              fontColor: "#000",
-              fontSize: 14,
-              padding: 18,
-              stepSize: 100000,
-              callback: function(value) {
-                var ranges = [
+              ticks: {
+                display: true,
+                padding: 20,
+                fontColor: "#000",
+                fontSize: 14
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false,
+                color: 'transparent',
+                zeroLineColor: '#eeeeee'
+              }
+            }],
+            yAxes: [{
+              display: true,
+              ticks: {
+                display: true,
+                autoSkip: false,
+                maxRotation: 0,
+                stepSize: 100,
+                fontColor: "#000",
+                fontSize: 14,
+                padding: 18,
+                stepSize: 100000,
+                callback: function (value) {
+                  var ranges = [
                     { divider: 1e6, suffix: 'M' },
                     { divider: 1e3, suffix: 'k' }
-                ];
-                function formatNumber(n) {
+                  ];
+                  function formatNumber(n) {
                     for (var i = 0; i < ranges.length; i++) {
                       if (n >= ranges[i].divider) {
-                          return (n / ranges[i].divider).toString() + ranges[i].suffix;
+                        return (n / ranges[i].divider).toString() + ranges[i].suffix;
                       }
                     }
                     return n;
+                  }
+                  return formatNumber(value);
                 }
-                return formatNumber(value);
+              },
+              gridLines: {
+                drawBorder: false
               }
-            },
-            gridLines: {
-              drawBorder: false
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: true
-        },
-        elements: {
-          line: {
-            tension: .37
+            }]
           },
-          point: {
-            radius: 0
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: true
+          },
+          elements: {
+            line: {
+              tension: .37
+            },
+            point: {
+              radius: 0
+            }
           }
         }
-      }
-      var revenueChartCanvas = $("#total-sales-chart").get(0).getContext("2d");
-      var revenueChart = new Chart(revenueChartCanvas, {
-        type: 'line',
-        data: areaData,
-        options: areaOptions
-      });
+        var revenueChartCanvas = $("#total-sales-chart").get(0).getContext("2d");
+        var revenueChart = new Chart(revenueChartCanvas, {
+          type: 'line',
+          data: areaData,
+          options: areaOptions
+        });
+      })
     }
 
     if ($("#users-chart").length) {
       fetch('https://inlupp-fa.azurewebsites.net/api/total-users').then((res) => res.json()).then((res) => {
-        var areaData = res.dataset
-        var areaOptions = {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          filler: {
-            propagate: false
-          }
-        },
-        scales: {
-          xAxes: [{
-            display: false,
-            ticks: {
-              display: true
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-              color: 'transparent',
-              zeroLineColor: '#eeeeee'
-            }
-          }],
-          yAxes: [{
-            display: false,
-            ticks: {
-              display: true,
-              autoSkip: false,
-              maxRotation: 0,
-              stepSize: 100,
-              min: 0,
-              max: 300
-            },
-            gridLines: {
-              drawBorder: false
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: true
-        },
-        elements: {
-          line: {
-            tension: .35
-          },
-          point: {
-            radius: 0
-          }
-        }
-      }
-      var salesChartCanvas = $("#users-chart").get(0).getContext("2d");
-      var salesChart = new Chart(salesChartCanvas, {
-        type: 'line',
-        data: areaData,
-        options: areaOptions
-      });
-    }).catch((error) => console.error(`could not retrieve from total-users. error: "${error.message}"` ))
-    }
 
-    if ($("#users-chart-dark").length) {
-      var areaData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
-        datasets: [{
-            data: [160, 105, 225, 140, 180, 61, 120, 60, 90],
+        $('#total-users').html(res.users)
+
+        if (Math.sign(res.growth) > 0) {
+          $('#total-users-growth').html('+' + res.growth)
+        } else if (Math.sign(res.growth) == 0) {
+          $('#total-users-growth').html(res.growth)
+        } else {
+          $('#total-users-growth').html('-' + res.growth)
+        }
+
+        var areaData = {
+          labels: res.dataset.labels,
+          datasets: [{
+            data: res.dataset.data,
             backgroundColor: [
-              'rgba(0, 198, 137, .1)'
+              '#e0fff4'
             ],
             borderWidth: 2,
             borderColor: "#00c689",
             fill: 'origin',
             label: "purchases"
           }
+          ]
+        };
+        var areaOptions = {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            filler: {
+              propagate: false
+            }
+          },
+          scales: {
+            xAxes: [{
+              display: false,
+              ticks: {
+                display: true
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false,
+                color: 'transparent',
+                zeroLineColor: '#eeeeee'
+              }
+            }],
+            yAxes: [{
+              display: false,
+              ticks: {
+                display: true,
+                autoSkip: false,
+                maxRotation: 0,
+                stepSize: 100,
+                min: 0,
+                max: 300
+              },
+              gridLines: {
+                drawBorder: false
+              }
+            }]
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: true
+          },
+          elements: {
+            line: {
+              tension: .35
+            },
+            point: {
+              radius: 0
+            }
+          }
+        }
+        var salesChartCanvas = $("#users-chart").get(0).getContext("2d");
+        var salesChart = new Chart(salesChartCanvas, {
+          type: 'line',
+          data: areaData,
+          options: areaOptions
+        });
+      }).catch((error) => console.error(`could not retrieve from total-users. error: "${error.message}"`))
+    }
+
+    if ($("#users-chart-dark").length) {
+      var areaData = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+        datasets: [{
+          data: [160, 105, 225, 140, 180, 61, 120, 60, 90],
+          backgroundColor: [
+            'rgba(0, 198, 137, .1)'
+          ],
+          borderWidth: 2,
+          borderColor: "#00c689",
+          fill: 'origin',
+          label: "purchases"
+        }
         ]
       };
       var areaOptions = {
@@ -248,10 +285,22 @@
     }
 
     if ($("#projects-chart").length) {
-      var areaData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr","May"],
-        datasets: [{
-            data: [220, 120, 140, 135, 160, 65, 160, 135, 190,165, 120, 160, 140, 140, 130, 120,  150],
+      fetch('https://inlupp-fa.azurewebsites.net/api/total-projects').then((res) => res.json()).then((res) => {
+
+        $('#total-projects').html(res.projects + '%')
+
+        if (Math.sign(res.growth) > 0) {
+          $('#total-projects-growth').html('+' + res.growth)
+        } else if (Math.sign(res.growth) == 0) {
+          $('#total-projects-growth').html(res.growth)
+        } else {
+          $('#total-projects-growth').html('-' + res.growth)
+        }
+
+        var areaData = {
+          labels: res.dataset.labels,
+          datasets: [{
+            data: res.dataset.data,
             backgroundColor: [
               '#e5f2ff'
             ],
@@ -260,65 +309,66 @@
             fill: 'origin',
             label: "purchases"
           }
-        ]
-      };
-      var areaOptions = {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          filler: {
-            propagate: false
-          }
-        },
-        scales: {
-          xAxes: [{
-            display: false,
-            ticks: {
-              display: true
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false,
-              color: 'transparent',
-              zeroLineColor: '#eeeeee'
+          ]
+        };
+        var areaOptions = {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            filler: {
+              propagate: false
             }
-          }],
-          yAxes: [{
-            display: false,
-            ticks: {
-              display: true,
-              autoSkip: false,
-              maxRotation: 0,
-              stepSize: 100,
-              min: 0,
-              max: 300
-            },
-            gridLines: {
-              drawBorder: false
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: true
-        },
-        elements: {
-          line: {
-            tension: .05
           },
-          point: {
-            radius: 0
+          scales: {
+            xAxes: [{
+              display: false,
+              ticks: {
+                display: true
+              },
+              gridLines: {
+                display: false,
+                drawBorder: false,
+                color: 'transparent',
+                zeroLineColor: '#eeeeee'
+              }
+            }],
+            yAxes: [{
+              display: false,
+              ticks: {
+                display: true,
+                autoSkip: false,
+                maxRotation: 0,
+                stepSize: 100,
+                min: 0,
+                max: 300
+              },
+              gridLines: {
+                drawBorder: false
+              }
+            }]
+          },
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: true
+          },
+          elements: {
+            line: {
+              tension: .05
+            },
+            point: {
+              radius: 0
+            }
           }
         }
-      }
-      var salesChartCanvas = $("#projects-chart").get(0).getContext("2d");
-      var salesChart = new Chart(salesChartCanvas, {
-        type: 'line',
-        data: areaData,
-        options: areaOptions
-      });
+        var salesChartCanvas = $("#projects-chart").get(0).getContext("2d");
+        var salesChart = new Chart(salesChartCanvas, {
+          type: 'line',
+          data: areaData,
+          options: areaOptions
+        });
+      })
     }
 
     if ($('#offlineProgress').length) {
@@ -428,8 +478,8 @@
         duration: 1400,
         text: {
           autoStyleContainer: true,
-          style : {
-            color : "#131633",
+          style: {
+            color: "#131633",
             position: 'absolute',
             left: '40%',
             top: '50%'
@@ -447,20 +497,20 @@
           width: 6
         },
         // Set default step function for all animate calls
-        step: function(state, circle) {
+        step: function (state, circle) {
           circle.path.setAttribute('stroke', state.color);
           circle.path.setAttribute('stroke-width', state.width);
-  
+
           var value = Math.round(circle.value() * 100);
           if (value === 0) {
             circle.setText('');
           } else {
             circle.setText(value);
           }
-  
+
         }
       });
-  
+
       bar.text.style.fontSize = '1rem';
       bar.animate(.64); // Number from 0.0 to 1.0
     }
@@ -476,8 +526,8 @@
         duration: 1400,
         text: {
           autoStyleContainer: true,
-          style : {
-            color : "#131633",
+          style: {
+            color: "#131633",
             position: 'absolute',
             left: '40%',
             top: '50%'
@@ -495,37 +545,37 @@
           width: 6
         },
         // Set default step function for all animate calls
-        step: function(state, circle) {
+        step: function (state, circle) {
           circle.path.setAttribute('stroke', state.color);
           circle.path.setAttribute('stroke-width', state.width);
-  
+
           var value = Math.round(circle.value() * 100);
           if (value === 0) {
             circle.setText('');
           } else {
             circle.setText(value);
           }
-  
+
         }
       });
-  
+
       bar.text.style.fontSize = '1rem';
       bar.animate(.84); // Number from 0.0 to 1.0
     }
 
     if ($("#projects-chart-dark").length) {
       var areaData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr","May"],
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May"],
         datasets: [{
-            data: [220, 120, 140, 135, 160, 65, 160, 135, 190,165, 120, 160, 140, 140, 130, 120,  150],
-            backgroundColor: [
-              'rgba(61, 165, 244, .1)'
-            ],
-            borderWidth: 2,
-            borderColor: "#3da5f4",
-            fill: 'origin',
-            label: "purchases"
-          }
+          data: [220, 120, 140, 135, 160, 65, 160, 135, 190, 165, 120, 160, 140, 140, 130, 120, 150],
+          backgroundColor: [
+            'rgba(61, 165, 244, .1)'
+          ],
+          borderWidth: 2,
+          borderColor: "#3da5f4",
+          fill: 'origin',
+          label: "purchases"
+        }
         ]
       };
       var areaOptions = {
@@ -594,15 +644,15 @@
         data: {
           labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
           datasets: [{
-              label: 'Profit',
-              data: [40, 100, 120, 80, 140, 120, 170, 100, 200, 150, 120, 100, 55],
-              backgroundColor: '#3da5f4'
-            },
-            {
-              label: 'Profit',
-              data: [90, 80, 180, 60, 100, 60, 120, 150, 100, 110, 150, 150, 100],
-              backgroundColor: '#23284f'
-            }
+            label: 'Profit',
+            data: [40, 100, 120, 80, 140, 120, 170, 100, 200, 150, 120, 100, 55],
+            backgroundColor: '#3da5f4'
+          },
+          {
+            label: 'Profit',
+            data: [90, 80, 180, 60, 100, 60, 120, 150, 100, 110, 150, 150, 100],
+            backgroundColor: '#23284f'
+          }
           ]
         },
         options: {
@@ -658,17 +708,17 @@
       var CurrentChart = new Chart(CurrentChartCanvas, {
         type: 'bar',
         data: {
-          labels: ["1982","","1993", "", "2003", "", "2013"],
+          labels: ["1982", "", "1993", "", "2003", "", "2013"],
           datasets: [{
-              label: 'Europe',
-              data: [280000, 90000, 150000, 200000, 50000, 150000, 260000, 150000, 260000],
-              backgroundColor: '#405189'
-            },
-            {
-              label: 'Africa',
-              data: [250000, 230000, 130000, 160000, 110000, 230000, 50000, 230000, 50000],
-              backgroundColor: '#3da5f4'
-            }
+            label: 'Europe',
+            data: [280000, 90000, 150000, 200000, 50000, 150000, 260000, 150000, 260000],
+            backgroundColor: '#405189'
+          },
+          {
+            label: 'Africa',
+            data: [250000, 230000, 130000, 160000, 110000, 230000, 50000, 230000, 50000],
+            backgroundColor: '#3da5f4'
+          }
           ]
         },
         options: {
@@ -694,18 +744,18 @@
                 fontStyle: 400,
                 fontSize: 14,
                 stepSize: 100000,
-                callback: function(value) {
+                callback: function (value) {
                   var ranges = [
-                      { divider: 1e6, suffix: 'M' },
-                      { divider: 1e3, suffix: 'k' }
+                    { divider: 1e6, suffix: 'M' },
+                    { divider: 1e3, suffix: 'k' }
                   ];
                   function formatNumber(n) {
-                      for (var i = 0; i < ranges.length; i++) {
-                        if (n >= ranges[i].divider) {
-                            return (n / ranges[i].divider).toString() + ranges[i].suffix;
-                        }
+                    for (var i = 0; i < ranges.length; i++) {
+                      if (n >= ranges[i].divider) {
+                        return (n / ranges[i].divider).toString() + ranges[i].suffix;
                       }
-                      return n;
+                    }
+                    return n;
                   }
                   return formatNumber(value);
                 }
@@ -743,12 +793,12 @@
       var areaData = {
         labels: ["Jan", "Feb", "Mar"],
         datasets: [{
-            data: [100, 30, 70],
-            backgroundColor: [
-              "#3da5f4", "#f1536e", "#fda006"
-            ],
-            borderColor: "rgba(0,0,0,0)"
-          }
+          data: [100, 30, 70],
+          backgroundColor: [
+            "#3da5f4", "#f1536e", "#fda006"
+          ],
+          borderColor: "rgba(0,0,0,0)"
+        }
         ]
       };
       var areaOptions = {
@@ -758,47 +808,47 @@
         cutoutPercentage: 72,
         elements: {
           arc: {
-              borderWidth: 4
+            borderWidth: 4
           }
-        },      
+        },
         legend: {
           display: false
         },
         tooltips: {
           enabled: true
         },
-        legendCallback: function(chart) { 
+        legendCallback: function (chart) {
           var text = [];
           text.push('<div class="distribution-chart">');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
-            text.push('<p>Texas</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
-            text.push('<p>Utah</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
-            text.push('<p>Georgia</p>');
-            text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
+          text.push('<p>Texas</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
+          text.push('<p>Utah</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
+          text.push('<p>Georgia</p>');
+          text.push('</div>');
           text.push('</div>');
           return text.join("");
         },
       }
       var distributionChartPlugins = {
-        beforeDraw: function(chart) {
+        beforeDraw: function (chart) {
           var width = chart.chart.width,
-              height = chart.chart.height,
-              ctx = chart.chart.ctx;
-      
+            height = chart.chart.height,
+            ctx = chart.chart.ctx;
+
           ctx.restore();
           var fontSize = .96;
           ctx.font = "600 " + fontSize + "em sans-serif";
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#000";
-      
+
           var text = "70%",
-              textX = Math.round((width - ctx.measureText(text).width) / 2),
-              textY = height / 2;
-      
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 2;
+
           ctx.fillText(text, textX, textY);
           ctx.save();
         }
@@ -817,12 +867,12 @@
       var areaData = {
         labels: ["Jan", "Feb", "Mar"],
         datasets: [{
-            data: [100, 50, 50],
-            backgroundColor: [
-              "#00c689", "#3da5f4","#f1536e"
-            ],
-            borderColor: "rgba(0,0,0,0)"
-          }
+          data: [100, 50, 50],
+          backgroundColor: [
+            "#00c689", "#3da5f4", "#f1536e"
+          ],
+          borderColor: "rgba(0,0,0,0)"
+        }
         ]
       };
       var areaOptions = {
@@ -832,47 +882,47 @@
         cutoutPercentage: 72,
         elements: {
           arc: {
-              borderWidth: 4
+            borderWidth: 4
           }
-        },      
+        },
         legend: {
           display: false
         },
         tooltips: {
           enabled: true
         },
-        legendCallback: function(chart) { 
+        legendCallback: function (chart) {
           var text = [];
           text.push('<div class="distribution-chart">');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
-            text.push('<p>Texas</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
-            text.push('<p>Utah</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
-            text.push('<p>Georgia</p>');
-            text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
+          text.push('<p>Texas</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
+          text.push('<p>Utah</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
+          text.push('<p>Georgia</p>');
+          text.push('</div>');
           text.push('</div>');
           return text.join("");
         },
       }
       var distributionChartPlugins = {
-        beforeDraw: function(chart) {
+        beforeDraw: function (chart) {
           var width = chart.chart.width,
-              height = chart.chart.height,
-              ctx = chart.chart.ctx;
-      
+            height = chart.chart.height,
+            ctx = chart.chart.ctx;
+
           ctx.restore();
           var fontSize = .96;
           ctx.font = "600 " + fontSize + "em sans-serif";
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#fff";
-      
+
           var text = "70%",
-              textX = Math.round((width - ctx.measureText(text).width) / 2),
-              textY = height / 2;
-      
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 2;
+
           ctx.fillText(text, textX, textY);
           ctx.save();
         }
@@ -891,12 +941,12 @@
       var areaData = {
         labels: ["Jan", "Feb", "Mar"],
         datasets: [{
-            data: [100, 50, 50],
-            backgroundColor: [
-              "#00c689", "#3da5f4","#f1536e"
-            ],
-            borderColor: "rgba(0,0,0,0)"
-          }
+          data: [100, 50, 50],
+          backgroundColor: [
+            "#00c689", "#3da5f4", "#f1536e"
+          ],
+          borderColor: "rgba(0,0,0,0)"
+        }
         ]
       };
       var areaOptions = {
@@ -906,47 +956,47 @@
         cutoutPercentage: 72,
         elements: {
           arc: {
-              borderWidth: 4
+            borderWidth: 4
           }
-        },      
+        },
         legend: {
           display: false
         },
         tooltips: {
           enabled: true
         },
-        legendCallback: function(chart) { 
+        legendCallback: function (chart) {
           var text = [];
           text.push('<div class="distribution-chart">');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
-            text.push('<p>Texas</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
-            text.push('<p>Utah</p>');
-            text.push('</div>');
-            text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
-            text.push('<p>Georgia</p>');
-            text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[0] + '"></div>');
+          text.push('<p>Texas</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[1] + '"></div>');
+          text.push('<p>Utah</p>');
+          text.push('</div>');
+          text.push('<div class="item"><div class="legend-label" style="border: 3px solid ' + chart.data.datasets[0].backgroundColor[2] + '"></div>');
+          text.push('<p>Georgia</p>');
+          text.push('</div>');
           text.push('</div>');
           return text.join("");
         },
       }
       var distributionChartPlugins = {
-        beforeDraw: function(chart) {
+        beforeDraw: function (chart) {
           var width = chart.chart.width,
-              height = chart.chart.height,
-              ctx = chart.chart.ctx;
-      
+            height = chart.chart.height,
+            ctx = chart.chart.ctx;
+
           ctx.restore();
           var fontSize = .96;
           ctx.font = "600 " + fontSize + "em sans-serif";
           ctx.textBaseline = "middle";
           ctx.fillStyle = "#b1b1b5";
-      
+
           var text = "70%",
-              textX = Math.round((width - ctx.measureText(text).width) / 2),
-              textY = height / 2;
-      
+            textX = Math.round((width - ctx.measureText(text).width) / 2),
+            textY = height / 2;
+
           ctx.fillText(text, textX, textY);
           ctx.save();
         }
@@ -966,12 +1016,12 @@
       var CurrentChart = new Chart(CurrentChartCanvas, {
         type: 'bar',
         data: {
-          labels: ["Jan","","Feb","","Mar", "", "Apr","", "May", "", "Jun"],
+          labels: ["Jan", "", "Feb", "", "Mar", "", "Apr", "", "May", "", "Jun"],
           datasets: [{
-              label: 'Europe',
-              data: [28000, 9000, 15000, 20000, 5000, 15000, 26000, 15000, 26000,20000, 28000],
-              backgroundColor: ["#3da5f4","#e0f2ff","#3da5f4","#e0f2ff","#3da5f4","#e0f2ff","#3da5f4","#e0f2ff","#3da5f4","#e0f2ff","#3da5f4"]
-            }
+            label: 'Europe',
+            data: [28000, 9000, 15000, 20000, 5000, 15000, 26000, 15000, 26000, 20000, 28000],
+            backgroundColor: ["#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4", "#e0f2ff", "#3da5f4"]
+          }
           ]
         },
         options: {
@@ -997,18 +1047,18 @@
                 padding: 20,
                 fontSize: 14,
                 stepSize: 10000,
-                callback: function(value) {
+                callback: function (value) {
                   var ranges = [
-                      { divider: 1e6, suffix: 'M' },
-                      { divider: 1e3, suffix: 'k' }
+                    { divider: 1e6, suffix: 'M' },
+                    { divider: 1e3, suffix: 'k' }
                   ];
                   function formatNumber(n) {
-                      for (var i = 0; i < ranges.length; i++) {
-                        if (n >= ranges[i].divider) {
-                            return (n / ranges[i].divider).toString() + ranges[i].suffix;
-                        }
+                    for (var i = 0; i < ranges.length; i++) {
+                      if (n >= ranges[i].divider) {
+                        return (n / ranges[i].divider).toString() + ranges[i].suffix;
                       }
-                      return n;
+                    }
+                    return n;
                   }
                   return "$" + formatNumber(value);
                 }
@@ -1048,12 +1098,12 @@
       var CurrentChart = new Chart(CurrentChartCanvas, {
         type: 'bar',
         data: {
-          labels: ["Jan","","Feb","","Mar", "", "Apr","", "May", "", "Jun"],
+          labels: ["Jan", "", "Feb", "", "Mar", "", "Apr", "", "May", "", "Jun"],
           datasets: [{
-              label: 'Europe',
-              data: [28000, 9000, 15000, 20000, 5000, 15000, 26000, 15000, 26000,20000, 28000],
-              backgroundColor: ["#3da5f4","#f1536e","#3da5f4","#f1536e","#3da5f4","#f1536e","#3da5f4","#f1536e","#3da5f4","#f1536e","#3da5f4"]
-            }
+            label: 'Europe',
+            data: [28000, 9000, 15000, 20000, 5000, 15000, 26000, 15000, 26000, 20000, 28000],
+            backgroundColor: ["#3da5f4", "#f1536e", "#3da5f4", "#f1536e", "#3da5f4", "#f1536e", "#3da5f4", "#f1536e", "#3da5f4", "#f1536e", "#3da5f4"]
+          }
           ]
         },
         options: {
@@ -1081,18 +1131,18 @@
                 padding: 20,
                 fontSize: 14,
                 stepSize: 10000,
-                callback: function(value) {
+                callback: function (value) {
                   var ranges = [
-                      { divider: 1e6, suffix: 'M' },
-                      { divider: 1e3, suffix: 'k' }
+                    { divider: 1e6, suffix: 'M' },
+                    { divider: 1e3, suffix: 'k' }
                   ];
                   function formatNumber(n) {
-                      for (var i = 0; i < ranges.length; i++) {
-                        if (n >= ranges[i].divider) {
-                            return (n / ranges[i].divider).toString() + ranges[i].suffix;
-                        }
+                    for (var i = 0; i < ranges.length; i++) {
+                      if (n >= ranges[i].divider) {
+                        return (n / ranges[i].divider).toString() + ranges[i].suffix;
                       }
-                      return n;
+                    }
+                    return n;
                   }
                   return "$" + formatNumber(value);
                 }

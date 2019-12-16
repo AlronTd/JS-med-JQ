@@ -108,6 +108,10 @@ $(function() {
         }
         
         
+        
+        
+        
+        
         //gets value for one of the four total boxes that display an amount of money.
         async function getTotal(whichTotal){
           let total = await fetch('https://inlupp-fa.azurewebsites.net/api/total-' + whichTotal).then((res) => {
@@ -121,12 +125,11 @@ $(function() {
         
         
         getMessages()
-        getNotifications
+        getNotifications()
         getTotal('growth')
         getTotal('sales')
         getTotal('orders')
         getTotal('purchases')
-        
         
         
     }
@@ -157,4 +160,18 @@ $(function() {
         //     sales = `${sales.currency}${sales.amount}`
         //     console.log('setting total sales to ' + sales)
         //     document.querySelector('#total-sales').innerHTML = sales
+        // }
+        
+        // async function getDownloads() {
+        //   let downloads = await fetch('https://inlupp-fa.azurewebsites.net/api/downloads').then((res) => {
+        //     console.log('downloads retrieved.')
+        //     return res.json()
+        //   }).catch((error) => console.error(`could not retrieve downloads. error: "${error.message}"`))
+            // for(values of res){
+            //   if('offlineAmount' in values){
+            //     let circle = 
+            //     $('#offline-downloads').html(res.offlineAmount)
+            //   }
+            // }
+        //     document.querySelector(`#`).innerHTML = total
         // }
