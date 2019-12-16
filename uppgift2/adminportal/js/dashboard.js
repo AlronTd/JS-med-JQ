@@ -111,21 +111,9 @@
     }
 
     if ($("#users-chart").length) {
-      var areaData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
-        datasets: [{
-            data: [160, 105, 225, 140, 180, 61, 120, 60, 90],
-            backgroundColor: [
-              '#e0fff4'
-            ],
-            borderWidth: 2,
-            borderColor: "#00c689",
-            fill: 'origin',
-            label: "purchases"
-          }
-        ]
-      };
-      var areaOptions = {
+      fetch('https://inlupp-fa.azurewebsites.net/api/total-users').then((res) => res.json()).then((res) => {
+        var areaData = res.dataset
+        var areaOptions = {
         responsive: true,
         maintainAspectRatio: true,
         plugins: {
@@ -182,6 +170,7 @@
         data: areaData,
         options: areaOptions
       });
+    }).catch((error) => console.error(`could not retrieve from total-users. error: "${error.message}"` ))
     }
 
     if ($("#users-chart-dark").length) {

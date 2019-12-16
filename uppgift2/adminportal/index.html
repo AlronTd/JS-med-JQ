@@ -20,53 +20,17 @@
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                   <i class="mdi mdi-email mx-0"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                <div id="messages" class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                   <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                        <img src="https://via.placeholder.com/36x36" alt="image" class="profile-pic">
-                    </div>
-                    <div class="preview-item-content flex-grow">
-                      <h6 class="preview-subject ellipsis font-weight-normal">David Grey
-                      </h6>
-                      <p class="font-weight-light small-text text-muted mb-0">
-                        The meeting is cancelled
-                      </p>
-                    </div>
-                  </a>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                        <img src="https://via.placeholder.com/36x36" alt="image" class="profile-pic">
-                    </div>
-                    <div class="preview-item-content flex-grow">
-                      <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
-                      </h6>
-                      <p class="font-weight-light small-text text-muted mb-0">
-                        New product launch
-                      </p>
-                    </div>
-                  </a>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                        <img src="https://via.placeholder.com/36x36" alt="image" class="profile-pic">
-                    </div>
-                    <div class="preview-item-content flex-grow">
-                      <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
-                      </h6>
-                      <p class="font-weight-light small-text text-muted mb-0">
-                        Upcoming board meeting
-                      </p>
-                    </div>
-                  </a>
                 </div>
               </li>
               <li class="nav-item dropdown mr-4">
                 <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
                   <i class="mdi mdi-bell mx-0"></i>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                <div id="notifications" class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                   <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                  <a class="dropdown-item preview-item">
+                  <!-- <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-success">
                         <i class="mdi mdi-information mx-0"></i>
@@ -104,7 +68,7 @@
                         2 days ago
                       </p>
                     </div>
-                  </a>
+                  </a> -->
                 </div>
               </li>
               <li class="nav-item nav-profile dropdown mr-0 mr-sm-2">
@@ -248,7 +212,7 @@
                     <div class="text-white">
                       <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Sales</p>
                       <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                        <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1">$508</h3>
+                        <h3 id="total-sales" class="mb-0 mb-md-1 mb-lg-0 mr-1"></h3>
                         <small class="mb-0">This month</small>
                       </div>
                     </div>
@@ -266,7 +230,7 @@
                     <div class="text-white">
                       <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Purchases</p>
                       <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                        <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1">$387</h3>
+                        <h3 id="total-purchases" class="mb-0 mb-md-1 mb-lg-0 mr-1"><!-- $387 --></h3>
                         <small class="mb-0">This month</small>
                       </div>
                     </div>
@@ -284,7 +248,7 @@
                     <div class="text-white">
                       <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Orders</p>
                       <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                        <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1">$161</h3>
+                        <h3 id="total-orders" class="mb-0 mb-md-1 mb-lg-0 mr-1"><!--$161--></h3>
                         <small class="mb-0">This month</small>
                       </div>
                     </div>
@@ -302,7 +266,7 @@
                     <div class="text-white">
                       <p class="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Total Growth</p>
                       <div class="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                        <h3 class="mb-0 mb-md-1 mb-lg-0 mr-1">$231</h3>
+                        <h3 id="total-growth" class="mb-0 mb-md-1 mb-lg-0 mr-1"></h3>
                         <small class="mb-0">This month</small>
                       </div>
                     </div>
@@ -640,6 +604,8 @@
   <script src="js/chart.js/Chart.min.js"></script>
   <script src="js/progressbar.js/progressbar.min.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/get-data.js"></script>
+  
 
 </body>
 </html>
