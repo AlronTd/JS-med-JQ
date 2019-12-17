@@ -372,6 +372,17 @@
     }
 
     if ($('#offlineProgress').length) {
+      fetch('https://inlupp-fa.azurewebsites.net/api/downloads').then((res) => res.json()).then((res) => {
+      
+      let animateArg = null
+      for(let values of res){
+        if('offlineAmount' in values){
+          $('#offline-downloads').html(values.offlineAmount)
+          animateArg = values.circleValue
+          break
+        }
+      }
+      
       var bar = new ProgressBar.Circle(offlineProgress, {
         color: '#000',
         // This has to be the same size as the maximum width to
@@ -416,10 +427,22 @@
       });
   
       bar.text.style.fontSize = '1rem';
-      bar.animate(.65); // Number from 0.0 to 1.0
+      bar.animate(animateArg); // Number from 0.0 to 1.0
+    })
     }
 
     if ($('#onlineProgress').length) {
+      fetch('https://inlupp-fa.azurewebsites.net/api/downloads').then((res) => res.json()).then((res) => {
+      
+      let animateArg = null
+      for(let values of res){
+        if('onlineAmount' in values){
+          $('#online-downloads').html(values.onlineAmount)
+          animateArg = values.circleValue
+          break
+        }
+      }
+      
       var bar = new ProgressBar.Circle(onlineProgress, {
         color: '#000',
         // This has to be the same size as the maximum width to
@@ -464,7 +487,8 @@
       });
   
       bar.text.style.fontSize = '1rem';
-      bar.animate(.25); // Number from 0.0 to 1.0
+      bar.animate(animateArg); // Number from 0.0 to 1.0
+    })
     }
 
     if ($('#offlineProgressDark').length) {

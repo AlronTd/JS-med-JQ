@@ -108,8 +108,18 @@ $(function() {
         }
         
         
-        
-        
+        //get user
+        async function getUser(firstName, lastName) {
+          let user = await fetch(`https://inlupp-fa.azurewebsites.net/api/users?firstname=${firstName}&lastname=${lastName}`).then((res) => {
+            console.log('user retrieved.')
+            return res.text()
+          }).catch((error) => console.error(`could not retrieve user. error: "${error.message}"`))
+            console.log(`setting user to ${user}.`)
+            for(let elem of document.querySelectorAll('.user')){
+              elem.innerHTML = user
+            }
+            
+        }
         
         
         //gets value for one of the four total boxes that display an amount of money.
@@ -126,6 +136,7 @@ $(function() {
         
         getMessages()
         getNotifications()
+        getUser('Albin', 'Jynnesjö')
         getTotal('growth')
         getTotal('sales')
         getTotal('orders')
